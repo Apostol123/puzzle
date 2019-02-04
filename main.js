@@ -75,11 +75,12 @@ $(document).ready(function(){
 })
 
 function load_puzzle_from_array(array_puzzle){
-    array_puzzle.sort();
-    if(array_puzzle.includes("")){
-       
-    }
-       
+   
+   if(array_puzzle.indexOf("")>-1){
+    array_puzzle[array_puzzle.indexOf("")]=erased_value;
+   }
+   array_puzzle.sort();
+  
     
     for(var i =0;i<array_puzzle.length;i++){
         var img = new Image();
@@ -98,7 +99,8 @@ function load_puzzle_from_array(array_puzzle){
        
         ri = Math.floor(Math.random() * array_puzzle.length);
        if(!array_puzzle.includes("")){
-           
+           erased_value=array_puzzle[ri];
+           alert(erased_value);
         array_puzzle[ri]="";
        }
       
