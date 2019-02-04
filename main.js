@@ -40,9 +40,15 @@ var array_puzzle_partido=[
 
 
 
+
+
+
+
+
     load_puzzle_from_array(array_puzzle_partido);
  
-
+    var ri=0;
+    var erased_value="";
   
    
 
@@ -70,6 +76,11 @@ $(document).ready(function(){
 
 function load_puzzle_from_array(array_puzzle){
     array_puzzle.sort();
+    if(array_puzzle.includes("")){
+       
+    }
+       
+    
     for(var i =0;i<array_puzzle.length;i++){
         var img = new Image();
         img.src=array_puzzle[i];
@@ -84,8 +95,13 @@ function load_puzzle_from_array(array_puzzle){
 
 
    function load_random_puzzle(array_puzzle){
-        var ri = Math.floor(Math.random() * array_puzzle.length);
+       
+        ri = Math.floor(Math.random() * array_puzzle.length);
+       if(!array_puzzle.includes("")){
+           
         array_puzzle[ri]="";
+       }
+      
        array_puzzle.sort(function(a, b){return 0.5 - Math.random()});
     for(var i =0;i<array_puzzle.length;i++){
         var img = new Image();
