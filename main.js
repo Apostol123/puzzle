@@ -44,6 +44,7 @@ var array_puzzle_partido=[
 
 var ri=0;
 var erased_value="";
+var movimientos=0;
 
 
     load_puzzle_from_array(array_puzzle_partido);
@@ -62,6 +63,7 @@ var erased_value="";
 
     $("#start").click(function () {
         $("#puzzle").empty();
+        $("#mov").text("00");
         load_random_puzzle(array_homer_partido);
         incializar_partes();
       });
@@ -72,39 +74,76 @@ var erased_value="";
         load_puzzle_from_array(array_puzzle_partido);
       });
 
+      function seTocanDerechaNormal(elemenet,vacio,parte,espacio_blanco){
+          if(elemenet.right==vacio.left && elemenet.top==vacio.top){
+            makeTransition(parte,espacio_blanco);
+                return true;
+          } else return false;
+     
+      }
+
+      function seTocanIzquierda(element,vacio,parte,espacio_blanco){
+          if(element.left==vacio.right && element.top==vacio.top){
+            makeTransition(parte,espacio_blanco);
+            return true;
+        } else return false;
+       
+      }
+
+      function seTocanArriba(elemenet,vacio,parte,espacio_blanco){
+          if( elemenet.bottom==vacio.top && elemenet.left==vacio.left){
+           
+            makeTransition(parte,espacio_blanco);
+            return true;
+        } else return false;
+       
+       
+      }
+
+
+      function seTocanAbajo(element,vacio,parte,espacio_blanco) {
+          if(element.top==vacio.bottom && element.left==vacio.left){
+             
+            makeTransition(parte,espacio_blanco);
+                return true;
+          } else return false;
+           
+        }
+
+        function makeTransition(parte,espacio_blanco){
+            espacio_blanco.setAttribute("src",parte.getAttribute("src"))
+            espacio_blanco.removeAttribute("id");
+            espacio_blanco.setAttribute("class","border");
+
+          
+          parte.setAttribute("src","");
+          parte.setAttribute("id","vacio")
+              return true;
+        }
+
       function calcular_si_mueve(element){
          var valor_element = element.getBoundingClientRect();
          var vacio = document.getElementById("vacio");
-
+  
 
          var valor_vacio =vacio.getBoundingClientRect();
 
-         if(valor_vacio.top==valor_element.bottom){
-                alert("se tocan");
-
-         }
-
-
-         /*
-         var element_left = valor_element.left;
-         var element_top = valor_element.top;
-         var element_width= valor_element.width;
-         var element_height=valor_element.height;
-         var elemenet_right = valor_element.right;
-
-
+         if (
+            seTocanAbajo(valor_element, valor_vacio, element, vacio) ||
+            seTocanArriba(valor_element, valor_vacio, element, vacio) ||
+            seTocanDerechaNormal(valor_element, valor_vacio, element, vacio) ||
+            seTocanIzquierda(valor_element, valor_vacio, element, vacio)
+        ) {
+          
+            var valor_anterior = Number(document.getElementById("mov").innerHTML);
+            document.getElementById("mov").innerHTML=valor_anterior+1;
     
-       
-        var vacio_left=valor_vacio.left;
-        var vacio_top=valor_vacio.top;
-        var vacio_right = valor_vacio.right;
-        var vacio_height=valor_vacio.height;
-        var vacio_width = valor_vacio.width;
+        } else {
+           
+            $('"'+"#"+element.getAttribute("id")+'"').fadeIn(100).fadeOut(100);
+           
+        }            
 
-   
-        alert("vacio left "+vacio_left+ " vacio right "+vacio_right+" vacio top "+vacio_top+"vacio buttom "+valor_vacio.bottom +" pausa   "+" left "+element_left+" elemenet right "+elemenet_right+" top "+element_top+" element botom "+valor_element.bottom);
-
-      */
         
       }
 
@@ -153,7 +192,7 @@ function load_puzzle_from_array(array_puzzle){
        
         var img = new Image();
         img.src=array_puzzle[i];
-       
+        img.setAttribute("id","flash"+i);
         img.setAttribute("class","border");
         if(array_puzzle[i]==""&&i!=0){
             img.setAttribute("id","vacio");
