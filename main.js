@@ -73,12 +73,43 @@ var erased_value="";
       });
 
       function calcular_si_mueve(element){
-          alert(element.getAttribute("src")+" y "+$(".vacio").attr("class"));
-          
-        if(element.left==$(".vacio").right){
-                
-        }
+         var valor_element = element.getBoundingClientRect();
+         var vacio = document.getElementById("vacio");
+
+
+         var valor_vacio =vacio.getBoundingClientRect();
+
+         if(valor_vacio.top==valor_element.bottom){
+                alert("se tocan");
+
+         }
+
+
+         /*
+         var element_left = valor_element.left;
+         var element_top = valor_element.top;
+         var element_width= valor_element.width;
+         var element_height=valor_element.height;
+         var elemenet_right = valor_element.right;
+
+
+    
+       
+        var vacio_left=valor_vacio.left;
+        var vacio_top=valor_vacio.top;
+        var vacio_right = valor_vacio.right;
+        var vacio_height=valor_vacio.height;
+        var vacio_width = valor_vacio.width;
+
+   
+        alert("vacio left "+vacio_left+ " vacio right "+vacio_right+" vacio top "+vacio_top+"vacio buttom "+valor_vacio.bottom +" pausa   "+" left "+element_left+" elemenet right "+elemenet_right+" top "+element_top+" element botom "+valor_element.bottom);
+
+      */
+        
       }
+
+
+    
 
 
 
@@ -119,18 +150,14 @@ function load_puzzle_from_array(array_puzzle){
       
        array_puzzle.sort(function(a, b){return 0.5 - Math.random()});
     for(var i =0;i<array_puzzle.length;i++){
-        if( array_puzzle[i]==""){
-            var img = new Image();
-            img.src=array_puzzle[i];
-            img.setAttribute("class","border");
-            img.setAttribute("class","vacio");
-            img.setAttribute("height","95");
-            img.setAttribute("width","95");
-            document.getElementById("puzzle").appendChild(img);
-        }
+       
         var img = new Image();
         img.src=array_puzzle[i];
+       
         img.setAttribute("class","border");
+        if(array_puzzle[i]==""&&i!=0){
+            img.setAttribute("id","vacio");
+        } 
         img.setAttribute("height","95");
         img.setAttribute("width","95");
         document.getElementById("puzzle").appendChild(img);
