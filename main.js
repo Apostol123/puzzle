@@ -1,3 +1,6 @@
+
+
+/// Carga de datos en array;
 var array_homer_partido = ["/imagenes/homer_partido/homer_entero_swap_part1x1.jpg",
     "/imagenes/homer_partido/homer_entero_swap_part1x2.jpg",
     "/imagenes/homer_partido/homer_entero_swap_part1x3.jpg",
@@ -92,8 +95,7 @@ var array_puzzle_partido = [
 
 
 
-
-
+// variables globales 
 
 var ri = 0;
 var erased_value = "";
@@ -105,6 +107,9 @@ var stopWatch;
 var comodin = 1;
 var puzzleElegido = "";
 
+
+
+// cargado el array .. solo se mostrara la primera vez que se abre el juego
 load_puzzle_from_array(array_puzzle_partido);
 
 
@@ -112,7 +117,10 @@ load_puzzle_from_array(array_puzzle_partido);
 
 
 
-
+// funccion que controlo las acciones de boton homer simpson
+// basicament assigna a la variable puzzleElegido el valor de homer .. vacio el contenedor 
+//de piezas de puzzle, carga el puzzle de homer y para el cronometro
+// este funccionamient se repita en las 4 funccion siguientes
 
 $(".sim").click(function () {
 
@@ -121,6 +129,8 @@ $(".sim").click(function () {
     load_puzzle_from_array(array_homer_partido);
     clearInterval(stopWatch);
 });
+
+
 
 $(".stan").click(function () {
 
@@ -145,6 +155,9 @@ $(".south_park").click(function () {
     clearInterval(stopWatch);
 });
 
+
+// controla la imagen que se va a enseñar de ayuda al jugador 
+//dependiendo del puzle selccionado 
 $(".ayuda").click(function () {
     switch (puzzleElegido) {
         case "homer":
@@ -172,6 +185,12 @@ $(".ayuda").click(function () {
 
 });
 
+// al apretar el boton start varca el contenedor de puzzle
+// reseta los movimientos
+// carga el puzle elegido 
+// para y vuelva a  inciar el cronometro
+// y resetea el comodin
+
 $("#start").click(function () {
     $("#puzzle").empty();
     $("#mov").text("00");
@@ -198,13 +217,20 @@ $("#start").click(function () {
     $("#comodin").text("1");
 });
 
+// funcccion que hace el efecto para indicar al jugador que el movimento no es permitdo
+
 function flash(elemenet) {
 
     $("#puzzle").find("img[name=" + elemenet + "]").fadeOut("fast").fadeIn("fast");
 }
 
 
-
+// funcciones que detectan si es posible mover la pieza
+// la logica de estas funciones esta en que si la posicion 
+// en la que esta el espacio en blanco 
+// es una posicion proxima a la posicon de la pieza
+// a la que se clico se hara el movimiento de lo contraro 
+// se llamara a la funccion flash
 function seTocanDerechaNormal(elemenet, vacio, parte, espacio_blanco) {
     if (elemenet.right == vacio.left && elemenet.top == vacio.top) {
         makeTransition(parte, espacio_blanco);
@@ -241,6 +267,8 @@ function seTocanAbajo(element, vacio, parte, espacio_blanco) {
 
 }
 
+// funccion que hace el movimient del comodin
+
 function makeTransition(parte, espacio_blanco) {
     espacio_blanco.setAttribute("src", parte.getAttribute("src"))
     espacio_blanco.removeAttribute("id");
@@ -254,7 +282,15 @@ function makeTransition(parte, espacio_blanco) {
 
 
 
-
+// esta funccion es el main del programa
+// lo primero que hace es calcular
+// si el jugador ha ganado (explicacion de la funccion de ganado mas abajo)
+// luego coje las posiciones de la parte del puzzle clickada
+// y la poscicon del espacio en blanco 
+// si alguna de las funcciones de comprovacion de movimiento nombradas arribas
+// es possible hara el movimiento sino se indicar al jugador que el movimeinto
+// no es posible
+// tambien incremete el nr de movimientos
 
 function calcular_si_mueve(element, partes) {
     switch (puzzleElegido){
@@ -289,6 +325,14 @@ case "stan ":  comprovarGanado(partes, erased_value_stan); break;
 
 }
 
+// recoje el puzzle original y el puzzle en marcha
+// ordena el puzle original .. 
+// y comprueba posicion por posicon
+// si las posciones de las piezas de puzle original 
+// son iguales a las posicones de las piezas del puzle en juego (el que esta desordenado)
+// si esto es igual a 15 osea si todas las piezas del puzle el marcha(desordenado) son iguales
+// a las piezas del puzle original(ordenado) el jugador a ganado
+// poruqe se de por entender que el puzzle esta resuelto
 function comprovarGanado(Puzzle_marcha, puzzle_Original) {
 
     puzzle_Original = comprovarPosiciones(puzzle_Original);
@@ -323,6 +367,8 @@ function comprovarGanado(Puzzle_marcha, puzzle_Original) {
 
 }
 
+
+// funccion que se llama cuando se quiere hacer el moviemietno del comodin
 function moverComodin(element) {
     var vacio = document.getElementById("vacio");
     if (comodin == 1) {
@@ -335,6 +381,8 @@ function moverComodin(element) {
 
 
 
+// esta funccion se usa para reordenar el puzzle orginal 
+// y hacer la comprovacion de las posciones mencionado arriba
 
 function comprovarPosiciones(array_puzzle) {
     switch (puzzleElegido) {
@@ -372,6 +420,9 @@ function comprovarPosiciones(array_puzzle) {
     return array_puzzle;
 }
 
+// funccion que dibuja el puzzle
+// recorro el array selecionado
+// y creo objetos imagenes y le asgno el valor de la parte 
 
 function load_puzzle_from_array(array_puzzle) {
     switch (puzzleElegido) {
@@ -460,19 +511,18 @@ function load_puzzle_from_array(array_puzzle) {
             }
             break;
     }
-    // compruebo si el array tiene un vacio
-    // de ser asi 
-
+    
 
 }
 
 
-
+// cargo de forma random el array
+// primero compruebo que np haya un espacio en blanco
+// para no hacer varios espacios en blanco
+// luego genero un numero random
+// este numero random se le asigna el espacio en blanco
 function load_random_puzzle(array_puzzle) {
-    // comprueba que no haya un espacio de ser asi 
-    // genero un numero random
-    // dentro del length de mi array 
-    // y le quito la propiedad
+  
     switch (puzzleElegido) {
         case "homer":
             ri = Math.floor(Math.random() * array_puzzle.length);
@@ -584,6 +634,9 @@ function load_random_puzzle(array_puzzle) {
 
 }
 
+/// asigno a todos las piezas de puzzle
+// las funcciones de onclick para comprovar si se pueden  mover
+
 function incializar_partes() {
     var partes = document.getElementById("puzzle").childNodes;
 
@@ -601,7 +654,9 @@ function incializar_partes() {
 }
 
 
-
+// funccion que controla el cronometro
+// asigno intervalors y variables 
+// para augmentar los segundos y minutos
 
 function cronometro() {
     var mili = 0;
