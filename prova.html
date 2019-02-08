@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+   
+</head>
+<body>
+    
+    <h1> timer</h1>
+    <button id="start" value="start">Start</button>
+    <button id="stop" value="Stop" onclick="stop()">Stop</button>
+    <p> <span id="min">00 </span> <span id="segundos"> 00 </span> <span id="mili">00</span></p>
+    <script >
+       var mili=0;
+       var seconds=0;
+       var minutes =0;
+
+        var stopWatch=setInterval(function(){
+           mili++;
+           document.getElementById("mili").innerHTML=mili;
+           if(mili==60){
+            mili=0;
+            seconds++;
+            document.getElementById("segundos").innerHTML=seconds;
+           }
+
+           if(seconds==60){
+            minutes++;
+            seconds=0;
+            document.getElementById("min").innerHTML=minutes;
+           }
+       },10);
+
+       function stop () {
+           clearInterval(stopWatch);
+         }
+
+        </script>
+</body>
+</html>
