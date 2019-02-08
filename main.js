@@ -302,8 +302,9 @@ function comprovarGanado(Puzzle_marcha, puzzle_Original) {
 
         }
 
-        if (correcto == 12) {
-            alert("has ganado!");
+        if (correcto == 15) {
+            alert("has ganado!"+"\n"+"Movimientos: "+document.getElementById("mov").innerHTML);
+           
             $("#puzzle").empty();
             switch(puzzleElegido){
                 case "homer" :  load_puzzle_from_array(array_homer_partido);break;
